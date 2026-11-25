@@ -33,9 +33,9 @@ class _LoginScreenState extends State<LoginScreen> {
       await auth.login(_email.text.trim(), _password.text);
     } on LoginFailed {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Wrong email or password')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Wrong email or password')));
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -54,7 +54,8 @@ class _LoginScreenState extends State<LoginScreen> {
               controller: _email,
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.next,
-              validator: (v) => (v ?? '').contains('@') ? null : 'Enter an email',
+              validator: (v) =>
+                  (v ?? '').contains('@') ? null : 'Enter an email',
               decoration: const InputDecoration(
                 labelText: 'Email',
                 border: OutlineInputBorder(),
@@ -64,8 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
             TextFormField(
               controller: _password,
               obscureText: true,
-              validator: (v) =>
-                  (v ?? '').isEmpty ? 'Enter a password' : null,
+              validator: (v) => (v ?? '').isEmpty ? 'Enter a password' : null,
               decoration: const InputDecoration(
                 labelText: 'Password',
                 border: OutlineInputBorder(),

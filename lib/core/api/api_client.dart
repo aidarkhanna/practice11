@@ -22,9 +22,9 @@ class ApiClient {
 
   // The header is built here: the repository never sees the token.
   Future<Map<String, String>> _headers() async => {
-        'Accept': 'application/json',
-        if (await _store.readToken() case final t?) 'Authorization': 'Bearer $t',
-      };
+    'Accept': 'application/json',
+    if (await _store.readToken() case final t?) 'Authorization': 'Bearer $t',
+  };
 
   Future<http.Response> get(String path, {Map<String, String>? query}) async {
     final uri = Uri.https(host, path, query);

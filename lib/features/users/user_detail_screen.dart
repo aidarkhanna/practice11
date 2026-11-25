@@ -10,9 +10,8 @@ import 'user.dart';
 Future<void> _open(BuildContext context, Uri uri) async {
   final ok = await launchUrl(uri);
   if (!ok && context.mounted) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('No app can open this')),
-    );
+    ScaffoldMessenger.of(context)
+        .showSnackBar(const SnackBar(content: Text('No app can open this')));
   }
 }
 
@@ -38,19 +37,15 @@ class UserDetailScreen extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.email),
             title: Text(user.email),
-            onTap: () => _open(
-              context,
-              Uri(scheme: 'mailto', path: user.email),
-            ),
+            onTap: () =>
+                _open(context, Uri(scheme: 'mailto', path: user.email)),
           ),
           ListTile(
             leading: const Icon(Icons.phone),
             title: Text(user.phone),
             subtitle: Text(user.phoneDigits),
-            onTap: () => _open(
-              context,
-              Uri(scheme: 'tel', path: user.phoneDigits),
-            ),
+            onTap: () =>
+                _open(context, Uri(scheme: 'tel', path: user.phoneDigits)),
           ),
           ListTile(
             leading: const Icon(Icons.language),

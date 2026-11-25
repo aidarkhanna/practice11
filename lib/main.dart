@@ -33,9 +33,7 @@ Future<void> main() async {
         ChangeNotifierProvider(
           create: (_) => SettingsModel(prefs, dark: dark, city: city),
         ),
-        ChangeNotifierProvider(
-          create: (_) => AuthModel(store, token: token),
-        ),
+        ChangeNotifierProvider(create: (_) => AuthModel(store, token: token)),
         ChangeNotifierProvider(
           create: (_) {
             final model = UsersModel(UserRepository(api, UsersCache()));

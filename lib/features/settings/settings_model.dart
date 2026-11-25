@@ -2,9 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsModel extends ChangeNotifier {
-  SettingsModel(this._prefs, {required bool dark, required String? city})
-      : _dark = dark,
-        _city = city;
+  SettingsModel(this._prefs, {required this._dark, required this._city});
 
   final SharedPreferencesAsync _prefs;
   bool _dark;

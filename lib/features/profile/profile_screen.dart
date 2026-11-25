@@ -48,8 +48,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (!mounted) return;
     switch (status) {
       case PermissionStatus.granted ||
-            PermissionStatus.limited ||
-            PermissionStatus.provisional:
+          PermissionStatus.limited ||
+          PermissionStatus.provisional:
         final picked = await _picker.pickImage(
           source: ImageSource.camera,
           maxWidth: 1024,
@@ -59,7 +59,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       case PermissionStatus.denied:
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('The camera is needed to take a photo. You can still choose one from the gallery.'),
+            content: Text(
+              'The camera is needed to take a photo. You can still choose one from the gallery.',
+            ),
           ),
         );
       case PermissionStatus.permanentlyDenied || PermissionStatus.restricted:
@@ -70,9 +72,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Future<void> _useFile(XFile? picked) async {
     if (picked == null) return; // Cancel
     final dir = await getApplicationDocumentsDirectory();
-    final saved = await File(picked.path).copy(
-      '${dir.path}${Platform.pathSeparator}avatar.jpg',
-    );
+    final saved = await File(picked.path)
+        .copy('${dir.path}${Platform.pathSeparator}avatar.jpg');
     await _prefs.setString('avatarPath', saved.path);
     await FileImage(saved).evict(); // same path, so drop the old picture
     if (!mounted) return;

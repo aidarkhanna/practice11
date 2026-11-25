@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import '../profile/profile_screen.dart';
 
 import 'package:flutter/material.dart';
@@ -17,10 +18,7 @@ class SettingsScreen extends StatelessWidget {
     final users = context.watch<UsersModel>().items;
     final auth = context.read<AuthModel>();
     final city = settings.city;
-    final cities = <String>{
-      ...users.map((u) => u.address.city),
-      if (city != null) city,
-    }.toList()
+    final cities = <String>{...users.map((u) => u.address.city), ?city}.toList()
       ..sort();
 
     return Scaffold(
@@ -59,7 +57,7 @@ class SettingsScreen extends StatelessWidget {
               await auth.logout();
             },
           ),
-            ListTile(
+          ListTile(
             leading: const Icon(Icons.account_circle),
             title: const Text('Profile'),
             onTap: () => Navigator.of(context).push(

@@ -30,11 +30,11 @@ class UsersScreen extends StatelessWidget {
     } else {
       body = switch (m.error) {
         null => Column(
-            children: [
-              if (m.fromCache) StaleBanner(onRetry: m.load),
-              Expanded(child: UserList(shown)),
-            ],
-          ),
+          children: [
+            if (m.fromCache) StaleBanner(onRetry: m.load),
+            Expanded(child: UserList(shown)),
+          ],
+        ),
         NoConnectionException() => Offline(onRetry: m.load),
         NotFoundException() || UnauthorizedException() => const AccessError(),
         ServerException(:final status) => ServerError(status, onRetry: m.load),
@@ -56,9 +56,9 @@ class UsersScreen extends StatelessWidget {
       ),
       body: body,
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.of(context).push(
-          MaterialPageRoute<void>(builder: (_) => const NewUserScreen()),
-        ),
+        onPressed: () => Navigator.of(
+          context,
+        ).push(MaterialPageRoute<void>(builder: (_) => const NewUserScreen())),
         child: const Icon(Icons.person_add),
       ),
     );
