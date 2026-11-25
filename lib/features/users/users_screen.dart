@@ -7,6 +7,7 @@ import '../settings/settings_screen.dart';
 import 'new_user_screen.dart';
 import 'user_list.dart';
 import 'users_model.dart';
+import 'widgets/stale_banner.dart';
 import 'widgets/status_views.dart';
 
 class UsersScreen extends StatelessWidget {
@@ -28,7 +29,12 @@ class UsersScreen extends StatelessWidget {
       body = const LoadingView();
     } else {
       body = switch (m.error) {
-        null => UserList(shown),
+        null => Column(
+            children: [
+              if (m.fromCache) StaleBanner(onRetry: m.load),
+              Expanded(child: UserList(shown)),
+            ],
+          ),
         NoConnectionException() => Offline(onRetry: m.load),
         NotFoundException() || UnauthorizedException() => const AccessError(),
         ServerException(:final status) => ServerError(status, onRetry: m.load),
