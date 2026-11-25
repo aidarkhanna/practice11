@@ -62,3 +62,32 @@ because the OS knows there is no route and SocketException is immediate.
 Wi-Fi that leads nowhere (hotspot without internet / unroutable host): the same
 Offline view appeared after about 10 s, because packets leave and never return
 and only the 10-second timeout stops the wait.
+
+# Practice 12
+
+## Level 1: package verdicts
+Order: publisher, last release, platforms, pub points, dependencies, licence.
+
+- shared_preferences: verified publisher flutter.dev, version 2.5.6 released in October 2026,
+  all six platforms, 160/160 pub points, a federated plugin that depends on its own
+  per-platform packages, BSD-3-Clause.
+  Verdict: safe to use, official, fresh and fully scored.
+- flutter_secure_storage: verified publisher steenbakker.dev, version 11.2.0 released in
+  September 2026, all six platforms, 160/160 pub points, a plugin with per-platform
+  implementations, BSD-3-Clause.
+  Verdict: safe to use for the token, recent release and a verified publisher, but it is a
+  community package, not an official Flutter one.
+- path_provider: verified publisher flutter.dev, version 2.1.6 released in June 2026,
+  Android, iOS, Linux, macOS and Windows but NOT web, 160/160 pub points, a federated
+  plugin, BSD-3-Clause.
+  Verdict: safe to use, but the offline file cache works only on mobile and desktop, not in Chrome.
+- image_picker: verified publisher flutter.dev, version 1.2.4 released in October 2026,
+  all six platforms, 160/160 pub points, a federated plugin, Apache-2.0 and BSD-3-Clause.
+  Verdict: safe to use, official and fresh.
+- permission_handler: verified publisher baseflow.com, version 13.0.2 released in September
+  2026, Android, iOS, web and Windows only (no macOS or Linux), 160/160 pub points, depends
+  on its platform interface and per-platform packages, MIT.
+  Verdict: safe to use, a well-known community package, and the camera flow is only for mobile anyway.
+- url_launcher: verified publisher flutter.dev, version 6.3.3 released in October 2026,
+  all six platforms, 160/160 pub points, a federated plugin, BSD-3-Clause.
+  Verdict: safe to use, official and fresh.
