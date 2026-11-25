@@ -1,4 +1,5 @@
 import 'dart:async';
+import '../profile/profile_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -57,6 +58,13 @@ class SettingsScreen extends StatelessWidget {
               Navigator.of(context).popUntil((route) => route.isFirst);
               await auth.logout();
             },
+          ),
+            ListTile(
+            leading: const Icon(Icons.account_circle),
+            title: const Text('Profile'),
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(builder: (_) => const ProfileScreen()),
+            ),
           ),
         ],
       ),

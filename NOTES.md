@@ -91,8 +91,7 @@ Order: publisher, last release, platforms, pub points, dependencies, licence.
 - url_launcher: verified publisher flutter.dev, version 6.3.3 released in October 2026,
   all six platforms, 160/160 pub points, a federated plugin, BSD-3-Clause.
   Verdict: safe to use, official and fresh.
-
-  
+ 
 ## Level 3: where the token lives
 prefs.setString('token', ...) would put the token into a plain, unencrypted file in the
 app folder (on Android a shared_prefs XML or a DataStore file, on iOS a plist).
@@ -103,3 +102,15 @@ Two platform surprises: on iOS the Keychain items can survive an app uninstall, 
 reinstalled app may find the old token. On Android the Keystore keys can be wiped when the
 screen lock is removed, so the read can fail or return nothing and the app must treat that
 as "signed out" (this is why readToken catches PlatformException).
+
+## Level 5: the No and the links
+Android: <сколько раз я нажала Don't allow, пока пришло permanentlyDenied; на какой тап
+системное окно исчезло, а появился мой диалог>. Open settings landed in the app's permission page.
+iOS (by the docs, no iOS device here): the system asks only once, so a single "Don't Allow" already
+gives permanentlyDenied and the only way back is the app settings. The fourth Photos state is
+`limited` (the user shared only selected photos).
+Every device call can end in a No: pickImage returns null on Cancel, launchUrl returns false when
+no app can open the link, request() returns one of several statuses. I handle each of them, so
+the app keeps working without the photo.
+launchUrl(Uri.parse('kbtu.edu.kz')) without a scheme returned false and opened nothing;
+with https:// the browser opened.

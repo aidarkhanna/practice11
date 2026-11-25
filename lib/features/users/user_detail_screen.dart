@@ -2,9 +2,19 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/storage/secure_store.dart';
 import 'user.dart';
+
+Future<void> _open(BuildContext context, Uri uri) async {
+  final ok = await launchUrl(uri);
+  if (!ok && context.mounted) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('No app can open this')),
+    );
+  }
+}
 
 class UserDetailScreen extends StatelessWidget {
   const UserDetailScreen(this.user, {super.key});
@@ -14,6 +24,7 @@ class UserDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final a = user.address;
+    final site = user.website;
 
     return Scaffold(
       appBar: AppBar(title: Text(user.name)),
@@ -27,17 +38,26 @@ class UserDetailScreen extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.email),
             title: Text(user.email),
+            onTap: () => _open(
+              context,
+              Uri(scheme: 'mailto', path: user.email),
+            ),
           ),
           ListTile(
             leading: const Icon(Icons.phone),
             title: Text(user.phone),
             subtitle: Text(user.phoneDigits),
-            onTap: () {},
+            onTap: () => _open(
+              context,
+              Uri(scheme: 'tel', path: user.phoneDigits),
+            ),
           ),
           ListTile(
             leading: const Icon(Icons.language),
-            title: Text(user.website ?? 'No website'),
-            onTap: () {},
+            title: Text(site ?? 'No website'),
+            onTap: site == null
+                ? null
+                : () => _open(context, Uri.parse('https://$site')),
           ),
           ListTile(
             leading: const Icon(Icons.home),
