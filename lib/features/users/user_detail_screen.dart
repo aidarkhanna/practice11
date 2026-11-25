@@ -1,5 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
+import '../../core/storage/secure_store.dart';
 import 'user.dart';
 
 class UserDetailScreen extends StatelessWidget {
@@ -20,7 +24,10 @@ class UserDetailScreen extends StatelessWidget {
             title: Text(user.username),
             subtitle: const Text('Username'),
           ),
-          ListTile(leading: const Icon(Icons.email), title: Text(user.email)),
+          ListTile(
+            leading: const Icon(Icons.email),
+            title: Text(user.email),
+          ),
           ListTile(
             leading: const Icon(Icons.phone),
             title: Text(user.phone),
@@ -46,6 +53,19 @@ class UserDetailScreen extends StatelessWidget {
             title: Text(user.company.name),
             subtitle: Text(user.company.catchPhrase),
           ),
+          if (kDebugMode)
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: OutlinedButton.icon(
+                icon: const Icon(Icons.copy),
+                label: const Text('Copy token to clipboard'),
+                onPressed: () async {
+                  final token = await context.read<SecureStore>().readToken();
+                  if (token == null) return;
+                  await Clipboard.setData(ClipboardData(text: token));
+                },
+              ),
+            ),
         ],
       ),
     );

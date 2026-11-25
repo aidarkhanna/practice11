@@ -5,6 +5,9 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/api/api_client.dart';
+import 'core/storage/secure_store.dart';
+import 'features/auth/auth_model.dart';
+import 'features/auth/login_screen.dart';
 import 'features/settings/settings_model.dart';
 import 'features/users/user_repository.dart';
 import 'features/users/users_model.dart';
@@ -17,13 +20,20 @@ Future<void> main() async {
   final dark = await prefs.getBool('darkMode') ?? false;
   final city = await prefs.getString('cityFilter');
 
-  final api = ApiClient();
+  final store = SecureStore();
+  final token = await store.readToken();
+
+  final api = ApiClient(store);
 
   runApp(
     MultiProvider(
       providers: [
+        Provider<SecureStore>.value(value: store),
         ChangeNotifierProvider(
           create: (_) => SettingsModel(prefs, dark: dark, city: city),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => AuthModel(store, token: token),
         ),
         ChangeNotifierProvider(
           create: (_) {
@@ -44,6 +54,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dark = context.watch<SettingsModel>().dark;
+    final signedIn = context.watch<AuthModel>().signedIn;
     return MaterialApp(
       themeMode: dark ? ThemeMode.dark : ThemeMode.light,
       theme: ThemeData(
@@ -55,7 +66,7 @@ class App extends StatelessWidget {
           brightness: Brightness.dark,
         ),
       ),
-      home: const UsersScreen(),
+      home: signedIn ? const UsersScreen() : const LoginScreen(),
     );
   }
 }

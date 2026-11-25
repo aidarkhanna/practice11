@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../auth/auth_model.dart';
 import '../users/users_model.dart';
 import 'settings_model.dart';
 
@@ -13,6 +14,7 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final settings = context.watch<SettingsModel>();
     final users = context.watch<UsersModel>().items;
+    final auth = context.read<AuthModel>();
     final city = settings.city;
     final cities = <String>{
       ...users.map((u) => u.address.city),
@@ -47,6 +49,14 @@ class SettingsScreen extends StatelessWidget {
               ],
               onChanged: (c) => unawaited(settings.setCity(c)),
             ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.logout),
+            title: const Text('Sign out'),
+            onTap: () async {
+              Navigator.of(context).popUntil((route) => route.isFirst);
+              await auth.logout();
+            },
           ),
         ],
       ),

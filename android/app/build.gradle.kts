@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.example.users_api11"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 37
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
@@ -27,6 +27,7 @@ android {
         // flag during build.
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        minSdk = flutter.minSdkVersion
     }
 
     buildTypes {
